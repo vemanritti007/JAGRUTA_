@@ -1,0 +1,19 @@
+{
+  // Hide Android/Capacitor native folders from Explorer and problem detection
+  "files.exclude": {
+    "android/": true
+  },
+  "search.exclude": {
+    "android/": true,
+    "node_modules/": true
+  },
+  // Stop VS Code from treating Android folders as Java projects
+  "java.project.sourcePaths": [],
+  "java.import.exclusions": [
+    "**/android/**",
+    "**/node_modules/**"
+  ],
+  // Suppress Tailwind @tailwind directive warnings in CSS
+  "css.lint.unknownAtRules": "ignore",
+  "java.configuration.updateBuildConfiguration": "interactive"
+}
