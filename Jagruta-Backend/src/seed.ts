@@ -23,9 +23,140 @@ const constituencies = [
   { id: 'c-byatarayanapura', name: 'Byatarayanapura', pincode: '560092', lat: 13.0659, lng: 77.5922, party: 'BJP' }
 ];
 
+function getGrade(score: number) {
+  if (score >= 85) return 'A';
+  if (score >= 70) return 'B';
+  if (score >= 55) return 'C';
+  if (score >= 40) return 'D';
+  return 'F';
+}
+
+function buildReportSections(index: number) {
+  return {
+    infrastructure: {
+      promised: 10 + (index % 5),
+      completed: 6 + (index % 4),
+      topProjects: [
+        {
+          name: 'Road repair and pothole filling',
+          status: 'Completed'
+        },
+        {
+          name: 'Streetlight maintenance',
+          status: 'In Progress'
+        },
+        {
+          name: 'Drainage improvement work',
+          status: 'Planned'
+        }
+      ]
+    },
+    schemes: {
+      implemented: 5 + (index % 4),
+      total: 10,
+      chips: ['Roads', 'Water Supply', 'Public Safety', 'Drainage']
+    },
+    turnout: {
+      history: [
+        {
+          election: '2018 Assembly',
+          value: 61 + (index % 6)
+        },
+        {
+          election: '2023 Assembly',
+          value: 65 + (index % 7)
+        }
+      ],
+      trend: index % 2 === 0 ? 'improving' : 'declining'
+    },
+    attendance: 70 + (index % 20),
+    news: [
+      {
+        title: 'Local civic development work reviewed',
+        source: 'JAGRUTA Civic Desk',
+        date: '2026-05-10'
+      },
+      {
+        title: 'Public grievance meeting conducted',
+        source: 'JAGRUTA Civic Desk',
+        date: '2026-05-18'
+      }
+    ]
+  };
+}
+
+const manifestoData = [
+  {
+    id: 'm1',
+    party: 'BJP',
+    category: 'Roads',
+    title: 'Road Improvement Program',
+    description: 'Upgrade major road stretches and reduce pothole complaints.',
+    status: 'fulfilled',
+    progress: 90,
+    evidence: 'Road repair works completed in selected wards.'
+  },
+  {
+    id: 'm2',
+    party: 'INC',
+    category: 'Water',
+    title: 'Water Supply Improvement',
+    description: 'Improve water supply reliability in dense residential areas.',
+    status: 'in-progress',
+    progress: 65,
+    evidence: 'Pipeline upgrade work is under progress.'
+  },
+  {
+    id: 'm3',
+    party: 'JD(S)',
+    category: 'Employment',
+    title: 'Skill Development Camps',
+    description: 'Organize local skill development camps and job fairs.',
+    status: 'not-started',
+    progress: 15,
+    evidence: 'Planning stage information available.'
+  },
+  {
+    id: 'm4',
+    party: 'BJP',
+    category: 'Education',
+    title: 'Government School Upgrade',
+    description: 'Improve classrooms, sanitation, and digital learning access.',
+    status: 'in-progress',
+    progress: 58,
+    evidence: 'School improvement work is partially completed.'
+  },
+  {
+    id: 'm5',
+    party: 'INC',
+    category: 'Healthcare',
+    title: 'Ward Clinic Strengthening',
+    description: 'Strengthen ward-level clinics and public health outreach.',
+    status: 'fulfilled',
+    progress: 82,
+    evidence: 'Public health outreach activities conducted.'
+  },
+  {
+    id: 'm6',
+    party: 'IND',
+    category: 'Safety',
+    title: 'Streetlight and CCTV Coverage',
+    description: 'Improve street lighting and CCTV coverage in high-risk areas.',
+    status: 'broken',
+    progress: 30,
+    evidence: 'Limited implementation reported.'
+  }
+];
+
 async function main() {
+  console.log('Starting JAGRUTA seed...');
+
   for (let i = 0; i < constituencies.length; i++) {
     const c = constituencies[i];
+
+    const score = 70 + (i % 20);
+    const attendance = 65 + (i % 30);
+    const criminalCases = i % 4;
 
     const constituency = await prisma.constituency.upsert({
       where: { pincode: c.pincode },
@@ -50,20 +181,23 @@ async function main() {
         party: c.party,
         level: 'MLA',
         constituencyId: constituency.id,
-        score: 70 + (i % 20),
-        attendance: 65 + (i % 30),
+        score,
+        attendance,
         yearsInOffice: 1 + (i % 12),
-        criminalCases: i % 4,
+        criminalCases,
         imageUrl: '',
         lat: c.lat,
         lng: c.lng,
-        criminalRecords: i % 4 === 0 ? [] : [
-          {
-            type: 'Election affidavit case',
-            court: 'Local Court',
-            status: 'Pending'
-          }
-        ],
+        criminalRecords:
+          criminalCases === 0
+            ? []
+            : [
+                {
+                  type: 'Election affidavit case',
+                  court: 'Local Court',
+                  status: 'Pending'
+                }
+              ],
         assetHistory: [
           { year: 2018, value: 10000000 + i * 500000 },
           { year: 2023, value: 15000000 + i * 700000 }
@@ -72,7 +206,8 @@ async function main() {
           { topic: 'Infrastructure' },
           { topic: 'Water Supply' },
           { topic: 'Public Transport' }
-        ]
+        ],
+        aiSummary: `${c.name} Representative represents ${c.name} as an MLA with a civic score of ${score}, attendance of ${attendance}%, and ${criminalCases} recorded criminal case(s).`
       },
       create: {
         id: `p${i + 1}`,
@@ -80,20 +215,23 @@ async function main() {
         party: c.party,
         level: 'MLA',
         constituencyId: constituency.id,
-        score: 70 + (i % 20),
-        attendance: 65 + (i % 30),
+        score,
+        attendance,
         yearsInOffice: 1 + (i % 12),
-        criminalCases: i % 4,
+        criminalCases,
         imageUrl: '',
         lat: c.lat,
         lng: c.lng,
-        criminalRecords: i % 4 === 0 ? [] : [
-          {
-            type: 'Election affidavit case',
-            court: 'Local Court',
-            status: 'Pending'
-          }
-        ],
+        criminalRecords:
+          criminalCases === 0
+            ? []
+            : [
+                {
+                  type: 'Election affidavit case',
+                  court: 'Local Court',
+                  status: 'Pending'
+                }
+              ],
         assetHistory: [
           { year: 2018, value: 10000000 + i * 500000 },
           { year: 2023, value: 15000000 + i * 700000 }
@@ -102,17 +240,49 @@ async function main() {
           { topic: 'Infrastructure' },
           { topic: 'Water Supply' },
           { topic: 'Public Transport' }
-        ]
+        ],
+        aiSummary: `${c.name} Representative represents ${c.name} as an MLA with a civic score of ${score}, attendance of ${attendance}%, and ${criminalCases} recorded criminal case(s).`
+      }
+    });
+
+    await prisma.reportCard.upsert({
+      where: {
+        constituencyId: constituency.id
+      },
+      update: {
+        grade: getGrade(score),
+        overallScore: score,
+        sections: buildReportSections(i)
+      },
+      create: {
+        constituencyId: constituency.id,
+        grade: getGrade(score),
+        overallScore: score,
+        sections: buildReportSections(i)
       }
     });
   }
 
-  console.log('Bengaluru constituency seed completed');
+  for (const manifesto of manifestoData) {
+    await prisma.manifesto.upsert({
+      where: {
+        id: manifesto.id
+      },
+      update: manifesto,
+      create: manifesto
+    });
+  }
+
+  console.log('Seed completed successfully.');
+  console.log(`Constituencies seeded: ${constituencies.length}`);
+  console.log(`Politicians seeded: ${constituencies.length}`);
+  console.log(`Report cards seeded: ${constituencies.length}`);
+  console.log(`Manifestos seeded: ${manifestoData.length}`);
 }
 
 main()
   .catch((error) => {
-    console.error(error);
+    console.error('Seed failed:', error);
     process.exit(1);
   })
   .finally(async () => {
