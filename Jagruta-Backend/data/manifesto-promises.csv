@@ -1,0 +1,50 @@
+party,category,title,description,status,progress,evidence
+BJP,Welfare,Free cooking gas cylinders,"Provide 3 free cooking gas cylinders annually to all BPL families during Ugadi, Ganesh Chaturthi and Deepavali.",not-started,10,bjp.pdf page 8
+BJP,Food Security,Atal Aahara Kendra,"Set up an Atal Aahara Kendra in every ward of every municipal corporation to provide affordable, quality and healthy food.",in-progress,40,bjp.pdf page 8
+BJP,Nutrition,Poshane scheme,Provide every BPL household half litre Nandini milk every day and 5 kg Shri Anna/Siri Dhanya through monthly ration kits.,not-started,15,bjp.pdf page 9
+BJP,Housing,Sarvarigu Suru Yojane,Identify and distribute 10 lakh housing sites across the state to siteless and homeless beneficiaries.,not-started,10,bjp.pdf page 9
+BJP,Women Welfare,Onake Obavva Samajika Nyaya Nidhi,"Provide a matching deposit up to Rs.10,000 on 5-year fixed deposits made by women of SC/ST households.",not-started,10,bjp.pdf page 10
+BJP,Housing,Karnataka Residents Welfare Consultative Committee,Improve ease of living for apartment dwellers in Bengaluru through a residents welfare committee and grievance reforms.,in-progress,50,bjp.pdf page 10
+BJP,Education,Visvesvaraya Vidya Yojane,Partner with eminent institutions and individuals to upgrade government schools to top-class standards.,in-progress,45,bjp.pdf page 10
+BJP,Employment,Samanvaya Yojane,Drive collaboration between SMEs and ITIs to generate employment for talented young professionals.,in-progress,35,bjp.pdf page 11
+BJP,Health,Mission Swasthya Karnataka,Strengthen public healthcare by establishing one Namma Clinic with diagnostic facilities in every municipal ward and providing annual master health check-ups for senior citizens.,fulfilled,100,bjp.pdf page 11
+BJP,Bengaluru Development,Bengaluru Global Hub of Digital Innovation,Develop Bengaluru for the next generation through a state capital region and technology-led city development program around ease of life and transport networks.,in-progress,60,bjp.pdf page 12
+BJP,Transport,Electric vehicle hub,"Transform Karnataka into a premier hub of electric vehicles through charging stations, startups and bus electrification.",fulfilled,100,bjp.pdf page 12
+BJP,Economy,K-Agri Fund,"Set up a Rs.30,000 crore K-Agri Fund for cold storage, processing, APMCs and agro-industry clusters.",in-progress,50,bjp.pdf page 12
+INC,Electricity,Gruha Jyothi,Provide 200 units of free electricity to all houses.,fulfilled,100,inc.pdf page 5
+INC,Women Welfare,Gruha Lakshmi,"Provide Rs.2,000 every month to each and every woman head of the family.",fulfilled,100,inc.pdf page 5
+INC,Food Security,Anna Bhagya,Provide 10 kg rice or food grains of choice every month to every person in BPL families.,in-progress,80,inc.pdf page 5
+INC,Youth Employment,Yuvanidhi,Provide unemployment support for unemployed graduates and diploma holders.,in-progress,70,inc.pdf page 5
+INC,Transport,Shakti free bus travel,Provide free travel to all women throughout the state in regular KSRTC and BMTC buses.,fulfilled,100,inc.pdf page 5
+INC,Governance,Local body elections timeline,Put in place a strict timeline to ensure all local body elections are held regularly.,in-progress,50,inc.pdf page 7
+INC,Governance,Public service delivery,Strengthen SAKALA Act to ensure timely delivery of services to citizens within stipulated time limits.,in-progress,60,inc.pdf page 7
+INC,Public Works,Transparent public works tenders,"Abolish corruption in public works and create transparent tender systems in PWD, rural development, irrigation, urban development and power sectors.",in-progress,40,inc.pdf page 9
+INC,Public Works,Time-bound civic works,Ensure works begin within 90 days of work order and contractors complete bills within contractual timelines.,in-progress,45,inc.pdf page 9
+INC,Police,Police recruitment and modernization,"Fill police vacancies, increase women police recruitment and modernize child-friendly police stations.",in-progress,55,inc.pdf page 9
+INC,Rural Development,Mahatma Gandhi Gram Swaraj Scheme,"Invest Rs.50 thousand crore over five years to improve facilities in villages including drinking water, sanitation, education, health and roads.",in-progress,35,inc.pdf page 13
+INC,Urban Development,Bengaluru TenderSURE expansion,Extend Bengaluru’s TenderSURE road model to cities with population above 10 lakh.,in-progress,40,inc.pdf page 13
+INC,Urban Development,Slum regularisation and housing,Construct apartments with facilities and regularise slums with title deeds under Ashraya Vasathi Samuchhaya.,in-progress,40,inc.pdf page 13
+INC,Waste Management,Garbage clearance projects,"Prepare a master plan and implement garbage clearance projects to recycle it as energy, manure and other products.",in-progress,50,inc.pdf page 13
+AAP,Governance,Zero corruption,Implement anti-corruption governance and improve accountability of public services.,fulfilled,100,aap.pdf pages 4-7
+AAP,Electricity,300 units free electricity,Provide 300 units of free electricity.,not-started,10,aap.pdf page 4
+AAP,Youth Employment,Employment stipend,"Provide Rs.3,000 unemployment stipend for youth.",not-started,10,aap.pdf page 4
+AAP,Agriculture,Farmers loan waiver,Provide farmers' loan waiver support.,not-started,5,aap.pdf page 4
+AAP,Agriculture,Minimum support price,Support minimum support price for farmers.,not-started,10,aap.pdf page 4
+AAP,Education,Free quality education,Provide free quality education.,in-progress,30,aap.pdf page 4
+AAP,Health,Free quality healthcare,Provide free quality healthcare.,in-progress,30,aap.pdf page 4
+AAP,Employment,Permanent jobs to contract employees,Provide permanent jobs to contract employees.,not-started,10,aap.pdf page 4
+AAP,Governance,Decentralised local body budget,"Allocate Rs.3,000 per resident per year to local bodies for streets, sanitation and welfare needs.",in-progress,25,aap.pdf page 8
+AAP,Regional Development,Regional economic development fund,Create a regional economic development plan and provide annual grants to districts for regional strategy and development.,in-progress,25,aap.pdf page 9
+AAP,Transport,Dense road network and bus quality,Construct a dense road network and improve quality of bus services for regional transport.,in-progress,30,aap.pdf page 10
+JD(S),Water,Janata Jaladhare,Implement pending comprehensive irrigation projects and supply clean drinking water across the state.,fulfilled,100,jds.pdf pages 3-4
+JD(S),Education,Free cycles for high school students,Distribute free bicycles to 6.8 lakh high-school students.,in-progress,35,jds.pdf page 3
+JD(S),Education,Electric mopeds for girl students,"Distribute electric mopeds to 60,000 economically weaker girl students in government first-grade colleges.",not-started,10,jds.pdf page 3
+JD(S),Education,Free higher education for poor students,"Provide free admission and education for poor students in degree, engineering and medical colleges.",not-started,10,jds.pdf page 3
+JD(S),Women Welfare,Mathrushree support,"Provide Rs.6,000 allowance for six months to meet needs of pregnant mothers.",in-progress,30,jds.pdf page 6
+JD(S),Women Welfare,Waiver of self-help group loans,Waive loans of Stree Shakti self-help groups.,not-started,10,jds.pdf page 6
+JD(S),Welfare,Widow pension increase,"Increase widow pension from Rs.900 to Rs.2,500.",in-progress,30,jds.pdf page 6
+JD(S),Welfare,Five free LPG cylinders,Provide five cooking gas cylinders free per year.,not-started,10,jds.pdf page 6
+JD(S),Agriculture,Raitha Bandhu support,"Provide Rs.2,000 per month to agricultural labour families and Rs.10,000 per acre annually for seeds and fertilisers.",in-progress,35,jds.pdf page 7
+JD(S),Transport,Auto driver monthly support,"Provide Rs.2,000 monthly assistance to every auto driver in the state.",in-progress,30,jds.pdf page 7
+JD(S),Welfare,Senior citizen pension increase,"Increase pension for eligible senior citizens below poverty line from Rs.1,200 to Rs.5,000.",in-progress,30,jds.pdf page 7
+JD(S),Health,Rare disease relief,Provide special relief up to Rs.25 lakh from the Chief Minister's Relief Fund within 24 hours for patients with rare diseases.,in-progress,40,jds.pdf page 7

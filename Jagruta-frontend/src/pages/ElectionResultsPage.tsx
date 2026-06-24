@@ -207,8 +207,8 @@ export default function ElectionResultsPage() {
                   </Badge>
                 </div>
 
-                <div className="h-[300px] flex items-center justify-center">
-                  <VoteShareDonut candidates={activeResult.candidates} />
+                <div className="min-h-[420px] flex items-center justify-center">
+                    <VoteShareDonut candidates={activeResult.candidates} />
                 </div>
               </Card>
             </div>

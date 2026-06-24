@@ -8,7 +8,14 @@
     "start": "ts-node src/index.ts",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "seed": "ts-node src/seed.ts"
+    "seed": "ts-node src/seed.ts",
+    "import:elections": "ts-node src/importElectionResults.ts",
+    "import:representatives": "ts-node src/importRepresentatives.ts",
+    "import:wards": "ts-node src/importWardData.ts",
+    "import:complaints": "ts-node src/importComplaints.ts",
+    "import:manifesto": "ts-node src/importManifesto.ts",
+    "import:calendar": "ts-node src/importElectionCalendar.ts",
+    "import:assets": "ts-node src/importAssetGrowth.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

@@ -50,13 +50,19 @@ app.post('/api/ai/politician-summary', async (req, res) => {
 app.post('/api/ai/problem-mapper', async (req, res) => {
   try {
     const messages = req.body?.messages || [];
-    const lastMessage =
+
+    const problem =
       req.body?.problem ||
       messages[messages.length - 1]?.content ||
       req.body?.prompt ||
       '';
 
-    const result = await generateProblemMapping(lastMessage);
+    const pincode =
+      req.body?.pincode ||
+      req.body?.areaPincode ||
+      '';
+
+    const result = await generateProblemMapping(problem, pincode);
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.status(200).send(result);

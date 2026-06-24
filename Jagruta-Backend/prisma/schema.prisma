@@ -34,6 +34,23 @@ model Politician {
   attendance      Float         @default(75)
   yearsInOffice   Int           @default(1)
   criminalCases   Int           @default(0)
+    partyFullName          String?
+  age                    Int?
+  education              String?
+  profession             String?
+  professionDescription  String?
+  assets                 String?
+  liabilities            String?
+
+  electionVotes          Int?
+  votePercentage         Float?
+  turnoutPercentage      Float?
+  validVotes             Int?
+  electors               Int?
+
+  sourceElection         String?
+  sourceAttendance       String?
+  sourceElectedMember    String?
 
   imageUrl        String?
   lat             Float?
@@ -76,4 +93,178 @@ model ReportCard {
 
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+}
+model DataSource {
+  id             String            @id @default(cuid())
+  name           String
+  sourceType     String
+  sourceUrl      String
+  description    String?
+  lastVerifiedAt DateTime?
+
+  elections      Election[]
+  candidates     CandidateResult[]
+
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+}
+
+model Election {
+  id               String            @id @default(cuid())
+
+  year             Int
+  type             String
+  state            String            @default("Karnataka")
+  constituencyNo   Int?
+  constituencyName String
+  district         String?
+
+  turnout          Float?
+  turnoutTrend     Float?
+
+  sourceUrl        String?
+  dataSourceId     String?
+  dataSource       DataSource?       @relation(fields: [dataSourceId], references: [id])
+
+  candidates       CandidateResult[]
+
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@unique([year, type, constituencyName])
+  @@index([year])
+  @@index([constituencyName])
+}
+
+model CandidateResult {
+  id                   String     @id @default(cuid())
+
+  electionId           String
+  election             Election   @relation(fields: [electionId], references: [id], onDelete: Cascade)
+
+  candidateName        String
+  candidateNameKn      String?
+  party                String
+
+  votes                Int
+  votePercentage       Float
+  status               String
+
+  criminalCases        Int        @default(0)
+  seriousCriminalCases Int        @default(0)
+
+  assets               String?
+  liabilities          String?
+  education            String?
+  age                  Int?
+  profession           String?
+
+  affidavitUrl         String?
+  sourceUrl            String?
+
+  dataSourceId         String?
+  dataSource           DataSource? @relation(fields: [dataSourceId], references: [id])
+
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+
+  @@index([candidateName])
+  @@index([party])
+  @@index([status])
+}
+model Ward {
+  id                   String        @id @default(cuid())
+  wardNo               Int           @unique
+  wardName             String
+  zoneName             String?
+  division             String?
+  subDivision          String?
+  assemblyConstituency String?
+  mpConstituency       String?
+
+  officers             WardOfficer[]
+  complaints           CivicComplaint[]
+
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  @@index([wardName])
+  @@index([assemblyConstituency])
+}
+
+model WardOfficer {
+  id                              String   @id @default(cuid())
+  wardId                          String
+  ward                            Ward     @relation(fields: [wardId], references: [id], onDelete: Cascade)
+
+  jointCommissioner               String?
+  jointCommissionerPhone          String?
+  deputyCommissioner              String?
+  deputyCommissionerPhone         String?
+  superintendentEngineer          String?
+  superintendentEngineerPhone     String?
+  chiefEngineer                   String?
+  chiefEngineerPhone              String?
+  executiveEngineer               String?
+  executiveEngineerPhone          String?
+  assistantExecutiveEngineer      String?
+  assistantExecutiveEngineerPhone String?
+  assistantEngineer               String?
+  assistantEngineerPhone          String?
+  juniorHealthInspector           String?
+  juniorHealthInspectorPhone      String?
+  seniorHealthInspector           String?
+  seniorHealthInspectorPhone      String?
+  revenueOfficer                  String?
+  revenueOfficerPhone             String?
+  assistantRevenueOfficer         String?
+  assistantRevenueOfficerPhone    String?
+  animalHusbandryOfficer          String?
+  animalHusbandryOfficerPhone     String?
+
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+}
+
+model ProblemCategory {
+  id                    String   @id @default(cuid())
+  key                   String   @unique
+  label                 String
+  responsibleDepartment String
+  suggestedOfficerRole  String
+  emergencyLevel        String   @default("NORMAL")
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model CivicComplaint {
+  id          String   @id @default(cuid())
+  wardId      String
+  ward        Ward     @relation(fields: [wardId], references: [id], onDelete: Cascade)
+
+  category    String
+  status      String
+  description String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([status])
+}
+model ElectionCalendar {
+  id               String   @id @default(cuid())
+  title            String
+  type             String
+  constituencyName String?
+  votingDate       DateTime
+  description      String?
+  source           String?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([type])
+  @@index([votingDate])
 }
