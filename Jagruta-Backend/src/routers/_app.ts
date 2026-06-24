@@ -45,73 +45,209 @@ function mapPolitician(p: any) {
 }
 
 export const appRouter = router({
-  'constituency.getByPincode': publicProcedure
+    'constituency.getByPincode': publicProcedure
     .input(z.object({ pincode: z.string() }))
     .query(async ({ input }) => {
-      const constituency = await prisma.constituency.findUnique({
-        where: { pincode: input.pincode },
-        include: { politicians: true }
+      const cleanPincode = String(input.pincode || '').trim();
+
+      const pincodeToAssembly: Record<string, string> = {
+        '560001': 'Shanti Nagar',
+        '560002': 'Chickpet',
+        '560003': 'Malleshwaram',
+        '560004': 'Basavanagudi',
+        '560005': 'Sarvagnanagar',
+        '560006': 'Hebbal',
+        '560007': 'Sarvagnanagar',
+        '560008': 'Shanti Nagar',
+        '560009': 'Gandhi Nagar',
+        '560010': 'Rajajinagar',
+        '560011': 'Jayanagar',
+        '560012': 'Malleshwaram',
+        '560013': 'Yeshwanthpur',
+        '560014': 'Yeshwanthpur',
+        '560015': 'Yeshwanthpur',
+        '560016': 'K.R. Puram',
+        '560017': 'Mahadevapura',
+        '560018': 'Chamarajpet',
+        '560019': 'Chamarajpet',
+        '560020': 'Gandhi Nagar',
+        '560021': 'Rajajinagar',
+        '560022': 'Malleshwaram',
+        '560023': 'Govindraj Nagar',
+        '560024': 'Hebbal',
+        '560025': 'Shanti Nagar',
+        '560026': 'Chamarajpet',
+        '560027': 'Shanti Nagar',
+        '560028': 'Basavanagudi',
+        '560029': 'B.T.M Layout',
+        '560030': 'Jayanagar',
+        '560032': 'Hebbal',
+        '560033': 'Sarvagnanagar',
+        '560034': 'B.T.M Layout',
+        '560035': 'Mahadevapura',
+        '560036': 'K.R. Puram',
+        '560037': 'Mahadevapura',
+        '560038': 'Shanti Nagar',
+        '560039': 'Govindraj Nagar',
+        '560040': 'Govindraj Nagar',
+        '560041': 'Jayanagar',
+        '560042': 'Shanti Nagar',
+        '560043': 'Sarvagnanagar',
+        '560045': 'Sarvagnanagar',
+        '560046': 'Shanti Nagar',
+        '560047': 'Shanti Nagar',
+        '560048': 'Mahadevapura',
+        '560050': 'Basavanagudi',
+        '560052': 'Malleshwaram',
+        '560053': 'Chickpet',
+        '560054': 'Malleshwaram',
+        '560055': 'Malleshwaram',
+        '560056': 'Yeshwanthpur',
+        '560057': 'Yeshwanthpur',
+        '560058': 'Yeshwanthpur',
+        '560059': 'Rajarajeshwari Nagar',
+        '560060': 'Rajarajeshwari Nagar',
+        '560061': 'Padmanabhanagar',
+        '560062': 'Padmanabhanagar',
+        '560064': 'Yelahanka',
+        '560065': 'Byatarayanapura',
+        '560066': 'Mahadevapura',
+        '560067': 'Mahadevapura',
+        '560068': 'Bommanahalli',
+        '560070': 'Padmanabhanagar',
+        '560072': 'Govindraj Nagar',
+        '560073': 'Yeshwanthpur',
+        '560075': 'Mahadevapura',
+        '560076': 'B.T.M Layout',
+        '560077': 'Byatarayanapura',
+        '560078': 'Jayanagar',
+        '560079': 'Rajajinagar',
+        '560083': 'Bommanahalli',
+        '560084': 'Sarvagnanagar',
+        '560085': 'Padmanabhanagar',
+        '560086': 'Rajajinagar',
+        '560087': 'Mahadevapura',
+        '560092': 'Hebbal',
+        '560093': 'C.V. Raman Nagar',
+        '560094': 'Malleshwaram',
+        '560095': 'B.T.M Layout',
+        '560096': 'Rajarajeshwari Nagar',
+        '560097': 'Yelahanka',
+        '560098': 'Rajarajeshwari Nagar',
+        '560100': 'Bommanahalli',
+        '560102': 'Bommanahalli',
+        '560103': 'Mahadevapura',
+      };
+
+      const mappedAssemblyName = pincodeToAssembly[cleanPincode];
+
+      let constituency = await prisma.constituency.findUnique({
+        where: {
+          pincode: cleanPincode,
+        },
+        include: {
+          politicians: true,
+        },
       });
+
+      if (!constituency && mappedAssemblyName) {
+        constituency = await prisma.constituency.findFirst({
+          where: {
+            name: {
+              contains: mappedAssemblyName,
+              mode: 'insensitive',
+            },
+          },
+          include: {
+            politicians: true,
+          },
+        });
+      }
 
       if (!constituency) {
         return {
-          pincode: input.pincode,
+          pincode: cleanPincode,
           ward: {
-            id: 'ward-unknown',
-            name: 'Unknown Ward',
+            id: 'ward-not-found',
+            name: 'Pincode not mapped',
             nameKn: '',
             type: 'ward' as const,
-            pincodes: [input.pincode]
+            pincodes: [cleanPincode],
           },
           assembly: {
-            id: 'c1',
-            name: 'Sarvagnanagar',
-            nameKn: 'ಸರ್ವಜ್ಞನಗರ',
+            id: 'assembly-not-found',
+            name: 'Pincode not mapped',
+            nameKn: '',
             type: 'assembly' as const,
-            pincodes: [input.pincode]
+            pincodes: [cleanPincode],
           },
           parliament: {
-            id: 'pc1',
-            name: 'Bangalore Central',
-            nameKn: 'ಬೆಂಗಳೂರು ಸೆಂಟ್ರಲ್',
+            id: 'parliament-not-found',
+            name: 'Bengaluru',
+            nameKn: '',
             type: 'parliament' as const,
-            pincodes: [input.pincode]
+            pincodes: [cleanPincode],
           },
-          representatives: mockPoliticians
+          representatives: [],
         };
       }
 
-      const representatives = constituency.politicians.map((p: any) =>
-        mapPolitician({
-          ...p,
-          constituencyRef: constituency
-        })
-      );
+      const representative = constituency.politicians[0];
+
+      const representatives = representative
+        ? [
+            {
+              id: representative.id,
+              name: representative.name,
+              nameKn: representative.name,
+              party: representative.party,
+              partyFullName: representative.partyFullName,
+              level: representative.level,
+              constituency: constituency.name,
+              constituencyId: constituency.id,
+              constituencyName: constituency.name,
+              pincodes: [cleanPincode],
+              imageUrl: representative.imageUrl || '',
+              photo: representative.imageUrl || '',
+              score: representative.score,
+              attendance: representative.attendance,
+              yearsInOffice: representative.yearsInOffice,
+              criminalCases: representative.criminalCases,
+              assets: representative.assets,
+              liabilities: representative.liabilities,
+              education: representative.education,
+              age: representative.age,
+              profession: representative.profession,
+              lat: representative.lat || 12.9716,
+              lng: representative.lng || 77.5946,
+            },
+          ]
+        : [];
 
       return {
-        pincode: input.pincode,
+        pincode: cleanPincode,
         ward: {
           id: `${constituency.id}-ward`,
           name: `${constituency.name} Ward`,
           nameKn: '',
           type: 'ward' as const,
-          pincodes: [constituency.pincode]
+          pincodes: [cleanPincode],
         },
         assembly: {
           id: constituency.id,
           name: constituency.name,
           nameKn: '',
           type: 'assembly' as const,
-          pincodes: [constituency.pincode]
+          pincodes: [cleanPincode],
         },
         parliament: {
           id: `${constituency.id}-parliament`,
-          name: 'Bangalore Central',
+          name: 'Bengaluru',
           nameKn: '',
           type: 'parliament' as const,
-          pincodes: [constituency.pincode]
+          pincodes: [cleanPincode],
         },
-        representatives
+        representatives,
       };
     }),
 

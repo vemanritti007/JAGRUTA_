@@ -17,12 +17,10 @@ interface AppState {
   hasSeenSplash: boolean;
   hasCompletedJoyrideTour: boolean;
   lastSearch: string[];
-  
-  // Mapbox Usage Guard
-  mapboxUsageCount: number;
-  lastUsageReset: string; // ISO Date
 
-  // Actions
+  mapboxUsageCount: number;
+  lastUsageReset: string;
+
   setPincode: (pincode: string | null) => void;
   setConstituency: (constituency: Constituency | null) => void;
   setMapLayer: (layer: MapLayer) => void;
@@ -34,8 +32,7 @@ interface AppState {
   setHasCompletedJoyrideTour: (seen: boolean) => void;
   toggleSideNav: () => void;
   addLastSearch: (term: string) => void;
-  
-  // Usage Actions
+
   incrementMapboxUsage: () => void;
   resetMapboxUsageIfNewMonth: () => void;
 }
@@ -60,32 +57,68 @@ export const useAppStore = create<AppState>()(
       setConstituency: (constituency) => set({ constituency }),
       setMapLayer: (layer) => set({ mapLayer: layer }),
       setComparePoliticians: (ids) => set({ comparePoliticians: ids }),
-      setLanguage: (lang) => set({ language: lang }),
-      setTheme: (theme) => set({ theme }),
+
+      setLanguage: (lang) => {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('jagruta-language', lang);
+          document.documentElement.lang = lang === 'kn' ? 'kn' : 'en';
+        }
+
+        set({ language: lang });
+      },
+
+      setTheme: (theme) => {
+        if (typeof window !== 'undefined') {
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(theme);
+          localStorage.setItem('jagruta-theme', theme);
+        }
+
+        set({ theme });
+      },
+
       setSideNavExpanded: (expanded) => set({ sideNavExpanded: expanded }),
       setHasSeenSplash: (seen) => set({ hasSeenSplash: seen }),
       setHasCompletedJoyrideTour: (seen) => set({ hasCompletedJoyrideTour: seen }),
-      toggleSideNav: () => set((state) => ({ sideNavExpanded: !state.sideNavExpanded })),
+
+      toggleSideNav: () =>
+        set((state) => ({
+          sideNavExpanded: !state.sideNavExpanded,
+        })),
+
       addLastSearch: (term) =>
         set((state) => ({
           lastSearch: [term, ...state.lastSearch.filter((t) => t !== term)].slice(0, 5),
         })),
 
-      incrementMapboxUsage: () => set((state) => ({ mapboxUsageCount: state.mapboxUsageCount + 1 })),
-      
-      resetMapboxUsageIfNewMonth: () => set((state) => {
-        const lastReset = new Date(state.lastUsageReset);
-        const now = new Date();
-        if (lastReset.getMonth() !== now.getMonth() || lastReset.getFullYear() !== now.getFullYear()) {
-          return { mapboxUsageCount: 0, lastUsageReset: now.toISOString() };
-        }
-        return {};
-      }),
+      incrementMapboxUsage: () =>
+        set((state) => ({
+          mapboxUsageCount: state.mapboxUsageCount + 1,
+        })),
+
+      resetMapboxUsageIfNewMonth: () =>
+        set((state) => {
+          const lastReset = new Date(state.lastUsageReset);
+          const now = new Date();
+
+          if (
+            lastReset.getMonth() !== now.getMonth() ||
+            lastReset.getFullYear() !== now.getFullYear()
+          ) {
+            return {
+              mapboxUsageCount: 0,
+              lastUsageReset: now.toISOString(),
+            };
+          }
+
+          return {};
+        }),
     }),
     {
       name: 'jagruta-store',
       partialize: (state) => ({
         pincode: state.pincode,
+        constituency: state.constituency,
         comparePoliticians: state.comparePoliticians,
         language: state.language,
         theme: state.theme,
@@ -94,7 +127,7 @@ export const useAppStore = create<AppState>()(
         lastSearch: state.lastSearch,
         mapboxUsageCount: state.mapboxUsageCount,
         lastUsageReset: state.lastUsageReset,
-  }),
+      }),
     }
   )
 );
